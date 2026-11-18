@@ -1,69 +1,31 @@
 package com.andeslogistics.platform.u202315007.logistics.domain.model.aggregates;
 
-import com.andeslogistics.platform.u202315007.logistics.domain.model.valueobjets.DeliveryCode;
-import com.andeslogistics.platform.u202315007.logistics.domain.model.valueobjets.DeliveryStatus;
-import com.andeslogistics.platform.u202315007.logistics.domain.model.valueobjets.PackageLoad;
+import com.andeslogistics.platform.u202315007.logistics.domain.model.valueobjets.*;
 
-/**
- * Represents a delivery order in the logistics system.
- */
+
 public class DeliveryOrder {
-
-    /**
-     * The unique identifier for the delivery order.
-     */
-    private String orderId;
+    private Long id;
     private DeliveryCode deliveryCode;
+    private WarehouseId warehouseId;
+    private DeliveryWindow deliveryWindow;
     private PackageLoad packageLoad;
-    private DeliveryStatus deliveryStatus;
+    private Integer priorityLevel;
+    private DeliveryStatus status;
+    private String deliveryNotes;
 
-    /**
-     * Constructs a DeliveryOrder with the specified delivery code, package load, and delivery status.
-     *
-     * @param deliveryCode   the delivery code
-     * @param packageLoad    the package load
-     * @param deliveryStatus the delivery status
-     */
-    public DeliveryOrder(DeliveryCode deliveryCode, PackageLoad packageLoad, DeliveryStatus deliveryStatus) {
+
+    public DeliveryOrder(DeliveryCode deliveryCode, WarehouseId warehouseId, DeliveryWindow deliveryWindow, PackageLoad packageLoad) {
         this.deliveryCode = deliveryCode;
+        this.warehouseId = warehouseId;
+        this.deliveryWindow = deliveryWindow;
         this.packageLoad = packageLoad;
-        this.deliveryStatus = deliveryStatus;
-    }
 
-    /**
-     * Constructs a DeliveryOrder with the specified order ID, delivery code, package load, and delivery status.
-     *
-     * @param orderId        the order ID
-     * @param deliveryCode   the delivery code
-     * @param packageLoad    the package load
-     * @param deliveryStatus the delivery status
-     */
-    public DeliveryOrder(String orderId, DeliveryCode deliveryCode, PackageLoad packageLoad, DeliveryStatus deliveryStatus) {
-        this.orderId = orderId;
-        this.deliveryCode = deliveryCode;
-        this.packageLoad = packageLoad;
-        this.deliveryStatus = deliveryStatus;
-    }
+        if(priorityLevel == null || priorityLevel < 1 || priorityLevel > 5) {
+            throw new IllegalArgumentException("Priority level must be between 1 and 5");
+        }
+        this.priorityLevel = priorityLevel;
 
-
-    /**
-     * Returns the order ID of the delivery order.
-     *
-     * @return the order ID
-     */
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public DeliveryCode getDeliveryCode() {
-        return deliveryCode;
-    }
-
-    public PackageLoad getPackageLoad() {
-        return packageLoad;
-    }
-
-    public DeliveryStatus getDeliveryStatus() {
-        return deliveryStatus;
+        this.status= DeliveryStatus.PENDING;
+        this.deliveryNotes = deliveryNotes;
     }
 }
